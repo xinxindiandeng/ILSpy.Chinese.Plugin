@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    ILSpy 汉化插件。
+
+    ILSpy 启动时会扫描自身目录下的 *.Plugin.dll 并加载
+    （见 ILSpy/AppEnv/AppComposition.cs 的 LoadPlugins），
+    本插件借此在主窗口创建之前设置 UI 区域性。
+
+    插件有意不引用 ILSpy.dll：不依赖任何 ILSpy 类型，
+    因此不会因为 ILSpy 内部 API 变动而编译失败。
+  -->
+  <PropertyGroup>
+    <!-- 与 ILSpy 11.2 保持一致；插件会被载入 ILSpy 的默认 AssemblyLoadContext -->
+    <TargetFramework>net10.0</TargetFramework>
+    <!-- 文件名必须以 .Plugin.dll 结尾，这是 ILSpy 的插件发现约定 -->
+    <AssemblyName>ILSpy.Chinese.Plugin</AssemblyName>
+    <Nullable>enable</Nullable>
+    <!-- 发布包只需要 DLL，不产出 pdb -->
+    <DebugType>none</DebugType>
+    <!-- 插件不依赖任何 NuGet 包，不需要 deps.json；避免安装目录里多出无意义文件 -->
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <!--
+      CA2255 提示“ModuleInitializer 不应在库中使用”。
+      本插件恰恰依赖“程序集加载时立即执行”这一语义，属于有意为之。
+    -->
+    <NoWarn>$(NoWarn);CA2255</NoWarn>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    ILSpy 简体中文卫星程序集（satellite assembly）。
+
+    构建产物：
+      bin\Release\net10.0\zh-Hans\ILSpy.resources.dll   ← 唯一需要分发的文件
+      bin\Release\net10.0\ILSpy.dll                     ← 构建中间产物，不需要分发
+
+    .NET 的 ResourceManager 在当前 UI 区域性为 zh-Hans 时，
+    会到主程序集所在目录的 zh-Hans\ 子目录下查找 <主程序集名>.resources.dll。
+  -->
+  <PropertyGroup>
+    <!-- 必须与 ILSpy 主程序集的目标框架一致，否则加载时会因框架不匹配而失败 -->
+    <TargetFramework>net10.0</TargetFramework>
+    <!-- 卫星程序集的文件名规则是 <主程序集名>.resources.dll，因此这里要与 ILSpy 同名 -->
+    <AssemblyName>ILSpy</AssemblyName>
+    <!-- 区域性决定产物落入 zh-Hans\ 子目录，并写入程序集元数据 -->
+    <Culture>zh-Hans</Culture>
+    <!-- 纯资源项目没有业务源码，关闭默认的 .cs / .resx 收集，避免误编译其它文件 -->
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <!-- 不生成 pdb 和 deps.json：用户目录里只需要那一个 resources.dll -->
+    <DebugType>none</DebugType>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      资源在卫星程序集内的名字必须与 ILSpy 的 ResourceManager 基名一致：
+        ICSharpCode.ILSpy.Properties.Resources + "." + 区域性 + ".resources"
+      否则即使文件放对了位置，运行时也查不到译文。
+    -->
+    <EmbeddedResource Include="Resources.zh-Hans.resx"
+                      LogicalName="ICSharpCode.ILSpy.Properties.Resources.zh-Hans.resources" />
+  </ItemGroup>
+
+</Project>

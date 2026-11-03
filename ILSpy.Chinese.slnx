@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ILSpy.Chinese.Plugin/ILSpy.Chinese.Plugin.csproj" />
+    <Project Path="src/ILSpy.Chinese.Resources/ILSpy.Chinese.Resources.csproj" />
+  </Folder>
+</Solution>
